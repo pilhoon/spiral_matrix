@@ -6,7 +6,17 @@
 //  Copyright (c) 2014 pilhoon. All rights reserved.
 //
 
-#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+
+#define ALLOC_CHECK(x)  if((x)==NULL) { printf("allocation fail\n"); return 1;}
+
+void dp(long* longp, long length, int stride) {
+    for(int i=0; i<length; i++) {
+        if(i % stride ==0) printf("\n");
+        printf("%ld ", longp[i]);
+    }
+}
 
 int main(int argc, const char * argv[])
 {
@@ -22,10 +32,8 @@ int main(int argc, const char * argv[])
     int rlimit = nr-1, climit = nc-1;
     const long BOARD_LEN = (long)nr*nc;
     int *base_serise = new int[BOARD_LEN-1];
-    if(NULL == base_serise) {
-        printf("base_serise allocation fail. %ld ints \n", BOARD_LEN);
-        exit(1);
-    }
+	ALLOC_CHECK(base_serise)
+
     long cur_idx = 0;
     for(int i=0; i<climit; i++) {
         base_serise[cur_idx] = 1;
@@ -52,37 +60,28 @@ int main(int argc, const char * argv[])
     }
     
     long *semi_serise = new long[BOARD_LEN];
-    if(NULL == semi_serise) {
-        printf("semi_serise allocation fail. %ld ints \n", BOARD_LEN);
-        exit(1);
-    }
+	ALLOC_CHECK(semi_serise);
+
     semi_serise[0] = 0;
     for(long i=1; i<BOARD_LEN; i++) {
         semi_serise[i] = semi_serise[i-1] + base_serise[i-1];
     }
     
-    delete[] base_serise;
+    //delete[] base_serise;
     
     
     long *final_serise = new long[BOARD_LEN];
-    if(NULL == final_serise) {
-        printf("final_serise allocation fail. %ld ints \n", BOARD_LEN);
-        exit(1);
-    }
+	ALLOC_CHECK(final_serise);
+
     //inverse permutation
     for(long i=0;i < BOARD_LEN; i++) {
         final_serise[semi_serise[i]] = i;
     }
     
-    delete[] semi_serise;
-    delete[] final_serise;
+	printf("%ld\n", final_serise[BOARD_LEN-1]); // meaningless. prevent optimization
+//	dp(final_serise, BOARD_LEN, nc);
+//    delete[] semi_serise;
+//    delete[] final_serise;
     return 0;
-}
-
-void dp(int* intp, int length, int stride) {
-    for(int i=0; i<length; i++) {
-        if(i % stride ==0) printf("\n");
-        printf("%d ", intp[i]);
-    }
 }
 

@@ -40,14 +40,7 @@ int main(int ac, char** av) {
     nr = atoi(av[1]);
     nc = atoi(av[2]);
 	long scratch =0 ; //just prevent calc result from optimization
-/*    long** board = new long*[nr];
-    ALLOC_CHECK(board)
-    for(int r=0; r<nr; r++) 
-    {
-        board[r] = new long[nc];
-        ALLOC_CHECK(board[r])
-    }
-*/
+
     const int N_0 = 2*(nr+nc)-4;
     //N_k = N_0 - 8k 
     //sigma N_k = (n+1)*N_0 - (4*n*(n+1))
@@ -75,12 +68,13 @@ int main(int ac, char** av) {
             }
             // store result
  //           board[r][c] = sigma + my_order;
- 			scratch = sigma + my_order;
+ 			scratch += sigma + my_order;
+			//printf("%ld\t", sigma+my_order);
         }
-		if(r%1000 == 0)
-			printf("complete row %d\n", r); //view progress
+		//printf("\n");
     }
 
+	printf("%ld\n", scratch);
 	//print_mat(board, nr, nc);
 	return 0;
 }

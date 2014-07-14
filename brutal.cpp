@@ -6,7 +6,10 @@
 //  Copyright (c) 2014 pilhoon. All rights reserved.
 //
 
-#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+
+#define ALLOC_CHECK(x)  if((x)==NULL) { printf("allocation fail\n"); return 1;}
 
 int main(int argc, const char * argv[])
 {
@@ -16,9 +19,10 @@ int main(int argc, const char * argv[])
     }
     
     int nr=atoi(argv[1]), nc=atoi(argv[2]);
-    int **board = new int*[nr];
+    long **board = new long*[nr];
     for(int i=0; i<nr; i++) {
-        board[i] = new int[nc];
+        board[i] = new long[nc];
+		ALLOC_CHECK(board[i])	
     }
     for(int r=0; r<nr; r++) {
         for(int c=0; c<nc; c++) {
@@ -27,7 +31,7 @@ int main(int argc, const char * argv[])
     }
     
     enum direction { RIGHT, DOWN, LEFT, UP };
-    int n=1;
+    int n=0;
     int r=0, c=0;
     direction d = RIGHT;
     while(true) {
@@ -75,14 +79,17 @@ int main(int argc, const char * argv[])
     //memory delete process omitted. just troublesome.
 
     // print matrix
-    /*
+    
+	/*
     for(int r=0; r < nr; r++) {
         for(int c=0; c<nc; c++) {
-            printf("%d ", board[r][c]);
+            printf("%ld ", board[r][c]);
         }
         printf("\n");
     }
-    */
+	*/
+    
+	printf("%ld\n", board[nr-1][nc-1]); //nothing
     return 0;
 }
 
