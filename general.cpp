@@ -1,3 +1,11 @@
+//
+//  general.cpp
+//  spiral_matrix_joey
+//
+//  Created by pilhoon on 7/14/14.
+//  Copyright (c) 2014 pilhoon. All rights reserved.
+//
+
 #include <cstdio>
 #include <cstdlib>
 #include <algorithm>
